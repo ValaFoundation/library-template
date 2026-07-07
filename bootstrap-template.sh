@@ -29,6 +29,25 @@ replace_all() {
   done
 }
 
+remove_marked_block() {
+  local file="$1"
+  local start_marker="$2"
+  local end_marker="$3"
+
+  [ -f "$file" ] || return 0
+  if ! grep -Fq "$start_marker" "$file"; then
+    return 0
+  fi
+
+  awk -v start="$start_marker" -v end="$end_marker" '
+    index($0, start) { skip = 1; next }
+    index($0, end) { skip = 0; next }
+    !skip { print }
+  ' "$file" > "$file.tmp"
+
+  mv "$file.tmp" "$file"
+}
+
 if [ ! -f "meson.build" ]; then
   echo -e "${RED}[Error] Run this script from repository root.${NC}"
   exit 1
@@ -75,6 +94,7 @@ replace_all "$OLD_SLUG" "$NEW_SLUG" "${FILES[@]}"
 replace_all "$OLD_DEP_NAME" "$NEW_DEP_NAME" "${FILES[@]}"
 replace_all "$OLD_GH_REPO" "$NEW_GH_REPO" "${FILES[@]}"
 replace_all "$OLD_TITLE" "$NEW_TITLE" "README.md"
+remove_marked_block "README.md" "<!-- TEMPLATE_BOOTSTRAP_START -->" "<!-- TEMPLATE_BOOTSTRAP_END -->"
 
 if grep -q "project('${OLD_SLUG}'" meson.build; then
   sed -i "s|project('${OLD_SLUG}'|project('${NEW_SLUG}'|" meson.build

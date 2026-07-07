@@ -4,8 +4,9 @@ Template repository for creating a new Vala shared library project with Meson, t
 
 ## Contents
 
-- [Quick start (GitHub template)](#quick-start-github-template)
-- [What bootstrap updates](#what-bootstrap-updates)
+<!-- TEMPLATE_BOOTSTRAP_START -->
+- [Template bootstrap (template only)](#template-bootstrap-template-only)
+<!-- TEMPLATE_BOOTSTRAP_END -->
 - [Build](#build)
 - [Test](#test)
 - [Release artifacts](#release-artifacts)
@@ -13,48 +14,32 @@ Template repository for creating a new Vala shared library project with Meson, t
 - [Dependencies](#dependencies)
 - [License](#license)
 
-## Quick start (GitHub template)
+<!-- TEMPLATE_BOOTSTRAP_START -->
+## Template bootstrap (template only)
 
 1. Click **Use this template** on GitHub.
 2. Clone your new repository.
 3. Push your initial commit (or run the workflow manually).
 4. The `Template Bootstrap` GitHub Action auto-runs once, commits renamed defaults, and removes itself.
-5. If needed, run bootstrap manually in repository root:
+
+Manual fallback:
 
 ```sh
 ./bootstrap-template.sh
 ```
 
-Optional: provide explicit project name slug:
+Optional: explicit project slug:
 
 ```sh
 ./bootstrap-template.sh my-awesome-lib
 ```
 
-The bootstrap script removes itself after a successful run.
-If you want to keep it, run it as:
+Keep bootstrap script after run:
 
 ```sh
 KEEP_SCRIPT=1 ./bootstrap-template.sh
 ```
-
-Then build and test:
-
-```sh
-meson setup builddir
-meson compile -C builddir
-meson test -C builddir
-```
-
-## What bootstrap updates
-
-- Meson project/dependency names
-- README references
-- Release workflow naming
-- Security advisory contact URL
-- Consumer helper scripts (`init.sh`, `init-local-vapi.sh`)
-
-Note: automatic bootstrap runs only in repositories generated from this template. It is skipped in the source template repository.
+<!-- TEMPLATE_BOOTSTRAP_END -->
 
 ## Build
 
@@ -94,7 +79,7 @@ In consumer project root:
 ./init.sh
 ```
 
-Or run directly from GitHub (after bootstrap, URL is rewritten to your generated repository):
+Or run directly from GitHub:
 
 ```sh
 curl -sSfL https://raw.githubusercontent.com/JanGalek/vala-library-template/master/init.sh -o init.sh && chmod +x init.sh && ./init.sh && rm init.sh
