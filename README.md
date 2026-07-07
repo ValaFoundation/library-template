@@ -17,7 +17,9 @@ Template repository for creating a new Vala shared library project with Meson, t
 
 1. Click **Use this template** on GitHub.
 2. Clone your new repository.
-3. Run bootstrap once in repository root:
+3. Push your initial commit (or run the workflow manually).
+4. The `Template Bootstrap` GitHub Action auto-runs once and commits renamed defaults.
+5. If needed, run bootstrap manually in repository root:
 
 ```sh
 ./bootstrap-template.sh
@@ -44,6 +46,8 @@ meson test -C builddir
 - Release workflow naming
 - Security advisory contact URL
 - Consumer helper scripts (`init.sh`, `init-local-vapi.sh`)
+
+Note: automatic bootstrap runs only in repositories generated from this template. It is skipped in the source template repository.
 
 ## Build
 

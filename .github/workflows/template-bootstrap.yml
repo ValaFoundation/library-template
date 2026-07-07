@@ -1,0 +1,46 @@
+name: Template Bootstrap
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    if: github.repository != 'JanGalek/vala-library-template'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run bootstrap when template defaults are still present
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if ! grep -q "project('vala-library-template'" meson.build; then
+            echo "Template already bootstrapped, nothing to do."
+            exit 0
+          fi
+
+          chmod +x bootstrap-template.sh
+          ./bootstrap-template.sh "${GITHUB_REPOSITORY##*/}"
+
+          if git diff --quiet; then
+            echo "No changes produced by bootstrap."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: bootstrap template defaults"
+          git push
