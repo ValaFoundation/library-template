@@ -18,7 +18,6 @@ vala_library_template_shared = shared_library(
 vala_library_template_dep = declare_dependency(
   link_with: vala_library_template_shared,
   include_directories: include_directories('.'),
-  sources: vala_library_template_sources
 )
 
 pkg = import('pkgconfig')

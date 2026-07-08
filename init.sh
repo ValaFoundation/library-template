@@ -34,7 +34,7 @@ revision = ${REPO_REF}
 depth = 1
 
 [provide]
-dependency_name = ${DEPENDENCY_NAME}
+vala_library_template = ${DEPENDENCY_NAME}_deps
 EOF
 
 echo -e "${GREEN}[Done] Wrap file has been successfully created.${NC}\n"
